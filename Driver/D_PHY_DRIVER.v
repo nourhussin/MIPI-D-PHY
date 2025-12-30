@@ -12,7 +12,7 @@ module D_PHY_DRIVER (
 
     output Dp, Dn,
     output TX_READY_HS,
-    output [:] D_PHY_TX_STATE
+    output [2:0] D_PHY_TX_STATE
 
 );
 
