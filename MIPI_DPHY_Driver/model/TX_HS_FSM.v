@@ -19,6 +19,7 @@ module TX_HS_FSM (
     input  wire TX_rst,
     input  wire Enable,
 
+    input  wire TX_VALID,
     input  wire [7:0] TX_BYTE_DATA,
     input  wire TX_HS_END_DATA,
 
@@ -33,7 +34,7 @@ module TX_HS_FSM (
     // Timing Parameters
     //--------------------------------------------------------------------------
     parameter integer T_HS_ZERO  = 4;
-    parameter integer T_HS_TRAIL = 4;
+    parameter integer T_HS_TRAIL = 8;
 
     //--------------------------------------------------------------------------
     // FSM States
@@ -48,6 +49,7 @@ module TX_HS_FSM (
 
     reg [$clog2(T_HS_ZERO+1)-1:0]  zero_cnt;
     reg [$clog2(T_HS_TRAIL+1)-1:0] trail_cnt;
+    reg [1:0] sync_cnt;
 
     assign TX_HS_STATE = current_state;
 
@@ -70,6 +72,7 @@ module TX_HS_FSM (
         if (TX_rst) begin
             zero_cnt  <= 0;
             trail_cnt <= 0;
+            sync_cnt <=0;
         end else begin
             if (current_state == TX_HS_ZERO)
                 zero_cnt <= zero_cnt + 1'b1;
@@ -80,6 +83,11 @@ module TX_HS_FSM (
                 trail_cnt <= trail_cnt + 1'b1;
             else
                 trail_cnt <= 0;
+
+            if (current_state == TX_HS_SYNC)
+                sync_cnt <= sync_cnt + 1'b1;
+            else
+                sync_cnt <= 0;
         end
     end
 
@@ -107,15 +115,20 @@ module TX_HS_FSM (
             end
 
             TX_HS_SYNC: begin
+                TX_HS_READY = 1'b1;
                 TX_BYTE_DATA_FSM   = 8'h1D;
                 TX_BYTE_DATA_VALID = 1'b1;
-                next_state = TX_HS_DATA;
+                if(sync_cnt == 3)
+                    next_state = TX_HS_DATA;
             end
 
             TX_HS_DATA: begin
-                TX_BYTE_DATA_FSM = TX_BYTE_DATA;
-                TX_BYTE_DATA_VALID = 1'b1;
                 TX_HS_READY = 1'b1;
+                if(TX_VALID) begin
+                    TX_BYTE_DATA_FSM = TX_BYTE_DATA;
+                    TX_BYTE_DATA_VALID = 1'b1;
+                end
+                
                 if (TX_HS_END_DATA)
                     next_state = TX_HS_TRAIL;
             end

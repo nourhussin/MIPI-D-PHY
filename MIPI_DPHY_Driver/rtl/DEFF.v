@@ -40,7 +40,7 @@ module DEFF (
         if (TX_rst)
             q1 <= 1'b0;
         else if (Enable)
-            q1 <= Serial_B1;
+            q1 <= Serial_B2;
     end
 
     // Falling-edge sampling
@@ -48,7 +48,7 @@ module DEFF (
         if (TX_rst)
             q2 <= 1'b0;
         else if (Enable)
-            q2 <= Serial_B2;
+            q2 <= Serial_B1;
     end
 
     // DDR output selection

@@ -27,7 +27,9 @@ module TX_LP_FSM (
 
     output reg  Dp,
     output reg  Dn,
-    output reg  TX_HS_END_DATA
+    output reg  TX_HS_END_DATA,
+    output reg  TX_HS_EN,
+    output [1:0] TX_LP_STATE
 );
 
     //--------------------------------------------------------------------------
@@ -35,9 +37,11 @@ module TX_LP_FSM (
     //--------------------------------------------------------------------------
     localparam TX_STOP    = 2'b00,
                TX_HS_REQ  = 2'b01,
-               TX_HS_PRPR = 2'b10;
+               TX_HS_PRPR = 2'b10,
+               TX_HS_WAIT = 2'b11;
 
     reg [1:0] current_state, next_state;
+    assign TX_LP_STATE = current_state;
 
     //--------------------------------------------------------------------------
     // State Register
@@ -57,6 +61,7 @@ module TX_LP_FSM (
         Dp = 1'b1;
         Dn = 1'b1;
         TX_HS_END_DATA = 1'b0;
+        TX_HS_EN = 1'b0;
         next_state = current_state;
 
         case (current_state)
@@ -77,6 +82,12 @@ module TX_LP_FSM (
 
             TX_HS_PRPR: begin
                 // LP-00 : HS prepare
+                Dp = 1'b0;
+                Dn = 1'b0;
+                next_state = TX_HS_WAIT;
+            end
+            TX_HS_WAIT: begin
+                TX_HS_EN = 1'b1;
                 Dp = 1'b0;
                 Dn = 1'b0;
                 if (!TX_REQ) begin
