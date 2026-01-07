@@ -1,0 +1,163 @@
+$date
+	Wed Jan 07 11:53:34 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module DEFF_TB $end
+$var wire 1 ! Dp $end
+$var wire 1 " Dn $end
+$var reg 1 # Enable $end
+$var reg 1 $ Serial_B1 $end
+$var reg 1 % Serial_B2 $end
+$var reg 1 & TX_DDR_clk $end
+$var reg 1 ' TX_rst $end
+$scope module dut $end
+$var wire 1 # Enable $end
+$var wire 1 $ Serial_B1 $end
+$var wire 1 % Serial_B2 $end
+$var wire 1 & TX_DDR_clk $end
+$var wire 1 ' TX_rst $end
+$var wire 1 ( ddr_out $end
+$var wire 1 ! Dp $end
+$var wire 1 " Dn $end
+$var reg 1 ) q1 $end
+$var reg 1 * q2 $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+0*
+0)
+0(
+1'
+0&
+0%
+0$
+0#
+z"
+z!
+$end
+#5000
+1&
+#10000
+0&
+#15000
+1&
+#20000
+0&
+0'
+#25000
+1&
+#30000
+0&
+#35000
+1&
+#40000
+0&
+#42000
+0!
+1"
+1%
+1#
+#45000
+1&
+#50000
+0"
+1!
+1(
+1*
+0&
+#52000
+1$
+#55000
+1)
+0"
+1!
+1(
+1&
+#60000
+0&
+#65000
+1&
+#70000
+0&
+#72000
+0%
+#75000
+1&
+#80000
+1"
+0!
+0(
+0*
+0&
+#85000
+0"
+1!
+1(
+1&
+#90000
+1"
+0!
+0(
+0&
+#95000
+0"
+1!
+1(
+1&
+#100000
+1"
+0!
+0(
+0&
+#102000
+z!
+z"
+0#
+#105000
+1(
+1&
+#110000
+0(
+0&
+#112000
+1%
+#115000
+1(
+1&
+#120000
+0(
+0&
+#122000
+0!
+1"
+1#
+#125000
+0"
+1!
+1(
+1&
+#130000
+1*
+0"
+1!
+1(
+0&
+#135000
+1&
+#140000
+0&
+#145000
+1&
+#150000
+0&
+#152000

@@ -88,4 +88,9 @@ module DEFF_TB;
         $finish;
     end
 
+    initial begin
+        $dumpfile("vcd/DEFF_TB.vcd");
+        $dumpvars(0, DEFF_TB);
+    end
+
 endmodule

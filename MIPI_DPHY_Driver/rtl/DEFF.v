@@ -40,7 +40,7 @@ module DEFF (
         if (TX_rst)
             q1 <= 1'b0;
         else if (Enable)
-            q1 <= Serial_B2;
+            q1 <= Serial_B1;
     end
 
     // Falling-edge sampling
@@ -48,11 +48,16 @@ module DEFF (
         if (TX_rst)
             q2 <= 1'b0;
         else if (Enable)
-            q2 <= Serial_B1;
+            q2 <= Serial_B2;
     end
 
-    // DDR output selection
-    assign Dp = Enable ? (TX_DDR_clk ? q1 : q2) : 1'bz;
-    assign Dn = Enable ? ~Dp : 1'bz;
+    // Glitch-free DDR output using XOR
+    wire ddr_out;
+
+    assign ddr_out = (q1 & TX_DDR_clk) ^ (q2 & ~TX_DDR_clk);
+
+    // Differential outputs
+    assign Dp = Enable ? ddr_out : 1'bz;
+    assign Dn = Enable ? ~ddr_out : 1'bz;
 
 endmodule
